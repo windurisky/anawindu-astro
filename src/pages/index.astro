@@ -1,252 +1,141 @@
 ---
-// Component Imports
-import MainHead from '../components/MainHead.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
-import PortfolioPreview from '../components/PortfolioPreview.astro';
-import type { Project } from '../types';
+// install via `npm i airtable`
+import Airtable from 'airtable'
+import Countdown from '../components/Countdown.astro';
 
-// Data Fetching: List all Markdown posts in the repo.
-const projects = await Astro.glob<Project>('./project/**/*.md');
-const featuredProject = projects[0]!;
+// ini contoh pake airtable, docs nya udah cukup bagus bisa ikutin aja disini https://airtable.com/api
+// tapi ini aku contohin pake project ku ya:
 
-// Full Astro Component Syntax:
-// https://docs.astro.build/core-concepts/astro-components/
+// api key nya kalo udah bisa nanti jangan dipake yaaaa wkwww
+
+Airtable.configure({
+    endpointUrl: 'https://api.airtable.com',
+    // replace apiKey based on docs di airtable
+    apiKey: 'keycpMBIzOnUKQqzQ'
+});
+
+// base ini juga ambil dari docs airtable
+const base = Airtable.base('appC7m4y9RgB6pybM')
+
+// ambil search params via contoh -> anaLalala.com?untuk=Miles Cruz
+const invitationForName = Astro.url.searchParams.get('untuk')?.trim()?.toLowerCase()
+
+// ini buat ambil semua data di table "Team Members"
+const airtableData = await base('Team Members')
+  .select()
+  .all()
+  .then(records => {
+    // r.fields itu buat ambil "raw" data nya aja, sama ini filter field "Name" aja (yg perlu)
+    return records.map(r => r.fields['Name'])
+
+    // would be better to consider caching via redis (bisa explore https://upstash.com/)
+  })
+  .catch((err) => {
+    console.error(err)
+  })
+
+
+const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === invitationForName)
+
+// ini buat redirection (kalo perlu), kalo namanya ga ketemu redirect ke /404
+// if (!foundInvitedPerson) {
+//   return Astro.redirect('/404')
+// }
+
+// fyi:
+// diantara --- ini astro bakal fetch di server trus balikin datanya ke template
 ---
 
 <html lang="en">
-	<head>
-		<MainHead
-			title="Jeanine White: Personal Site"
-			description="Jeanine White: Developer, Speaker, and Writer..."
-		/>
-		<style>
-			.wrapper {
-				margin-top: 2em;
-				margin-bottom: 2em;
-			}
 
-			.hero {
-				position: relative;
-				overflow: hidden;
-			}
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnaLalala | Untuk {foundInvitedPerson}</title>
+  <link href="https://fonts.cdnfonts.com/css/vollkorn" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/great-vibes" rel="stylesheet">
+</head>
 
-			@media (min-width: 750px) {
-				.hero {
-					height: 45vw;
-				}
-			}
-
-			.img {
-				display: block;
-				width: 100%;
-				height: auto;
-			}
-
-			.gradient,
-			.gradient2 {
-				background-image: url('/assets/mesh-gradient.jpg');
-				background-size: cover;
-				pointer-events: none;
-				mix-blend-mode: screen;
-				width: 100%;
-				height: 100%;
-				position: absolute;
-				top: 0;
-				left: 0;
-				z-index: 2;
-			}
-
-			.gradient2 {
-				mix-blend-mode: multiply;
-				background-size: cover;
-			}
-
-			.overlay {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				z-index: 10;
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				justify-content: center;
-				padding-left: 2rem;
-			}
-
-			@media (min-width: 750px) {
-				.overlay {
-					padding-left: 4rem;
-				}
-			}
-
-			.title {
-				font-weight: 900;
-				font-size: var(--f-u6);
-				margin-bottom: 0.5rem;
-				margin-top: 0;
-			}
-
-			@media (min-width: 750px) {
-				.title {
-					font-size: var(--f-u12);
-				}
-			}
-
-			.grid {
-				display: grid;
-				grid-gap: 2rem;
-			}
-
-			@media (min-width: 1200px) {
-				.grid {
-					grid-template-columns: 2fr 1fr;
-				}
-			}
-
-			.sectionTitle {
-				font-weight: 700;
-				font-size: var(--f-u8);
-				margin-top: 4rem;
-				margin-bottom: 2rem;
-			}
-
-			.roles {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.5em;
-				font-size: var(--f-d1);
-			}
-
-			.role {
-				position: relative;
-				display: inline-block;
-				white-space: nowrap;
-				font-weight: 900;
-				color: var(--t-bg);
-				background-color: var(--t-fg);
-				padding: 0.25em 0.5em;
-				z-index: 2;
-			}
-
-			@media (min-width: 750px) {
-				.role {
-					font-size: var(--f-u3);
-				}
-			}
-
-			.role:nth-of-type(1) .invert {
-				background-color: var(--c-pink);
-			}
-
-			.role:nth-of-type(2) .invert {
-				background-color: var(--c-blue);
-			}
-
-			.role:nth-of-type(3) .invert {
-				background-color: var(--c-green);
-			}
-
-			.role:hover .invert {
-				clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-			}
-
-			.invert {
-				position: absolute;
-				color: var(--t-fg);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				width: 100%;
-				height: 100%;
-				top: 0;
-				left: 0;
-				pointer-events: none;
-				clip-path: polygon(0% 100%, 100% 100%, 100% 200%, 0% 200%);
-				transition: clip-path cubic-bezier(0.4, 0, 0.5, 1) 150ms;
-			}
-
-			.desc {
-				font-size: var(--f-u1);
-				margin-top: 1.5rem;
-				margin-bottom: 0;
-			}
-
-			.subtitle {
-				display: block;
-				font-weight: 400;
-				font-size: var(--f-d6);
-				letter-spacing: -0.0625em;
-			}
-
-			.bio {
-				line-height: 2;
-				margin-bottom: 2rem;
-			}
-
-			.bio > span:first-of-type {
-				line-height: 1;
-				margin-bottom: 0.5em;
-				display: block;
-				font-weight: 700;
-				font-size: var(--f-u4);
-			}
-
-			.buttonContainer {
-				text-align: center;
-				margin-top: 2em;
-			}
-		</style>
-	</head>
-	<body>
-		<Nav />
-		<header class="hero">
-			<img
-				width="1600"
-				height="1131"
-				class="img"
-				src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&q=75"
-				srcset="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&q=75 800w,https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&q=75 1200w,https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1600&q=75 1600w,https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=2400&q=75 2400w"
-				sizes="(max-width: 800px) 800px, (max-width: 1200px) 1200px, (max-width: 1600px) 1600px, (max-width: 2400px) 2400px, 1200px"
-			/>
-			<div class="gradient"></div>
-			<div class="gradient2"></div>
-			<div class="overlay">
-				<h1 class="title">
-					<small class="subtitle">The personal site of</small>Jeanine White
-				</h1>
-				<div class="roles">
-					<span class="role">👩‍💻 Developer <span class="invert">👩‍💻 Developer</span></span>
-					<span class="role">🎤 Speaker <span class="invert">🎤 Speaker</span></span>
-					<span class="role">✏️ Writer <span class="invert">✏️ Writer</span></span>
-				</div>
-				<p class="desc">Lover of dogs, roadtrips, and poetry.</p>
-			</div>
-		</header>
-		<main class="wrapper">
-			<div class="grid">
-				<div class="section">
-					<h3 class="sectionTitle">Selected Work</h3>
-					<PortfolioPreview project={featuredProject} />
-					<div class="buttonContainer">
-						<a href="/projects/" class="button">View All</a>
-					</div>
-				</div>
-				<div class="section">
-					<h3 class="sectionTitle">About me</h3>
-					<p class="bio">
-						<span>Hello!</span> I’m Jeanine, and this is my website. It was made using{' '}
-						<a href="https://github.com/withastro/astro" target="_blank" rel="nofollow"> Astro</a>,
-						a new way to build static sites. This is just an example template for you to modify.
-					</p>
-					<p>
-						<a href="/about">Read more</a>
-					</p>
-				</div>
-			</div>
-		</main>
-		<Footer />
-	</body>
+<body class="h-full vsc-initialized" data-new-gr-c-s-check-loaded="14.1086.0" data-gr-ext-installed="">
+  <div class="h-full">
+    <!-- Debug, uncomment aja buat liat semua data di airtable -->
+    <!-- <h2>Daftar Undangan:</h2> -->
+    <!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
+    <nav class="bg-champagne-pink-500">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-20 items-center justify-between">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <img class="h-20 w-20" alt="Ana & Windu Logo"
+                src="/assets/anawindu-logo.svg">
+            </div>
+            <div class="hidden md:block">
+              <div class="ml-10 flex items-baseline space-x-4">
+                <a href="#" class="bg-cafe-noir-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  aria-current="page">Beranda</a>
+                <a href="#"
+                  class="text-cafe-noir-300 hover:bg-cafe-noir-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tanggal</a>
+                <a href="#"
+                  class="text-cafe-noir-300 hover:bg-cafe-noir-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Galeri</a>
+              </div>
+            </div>
+          </div>
+          <div class="-mr-2 flex md:hidden">
+            <!-- Mobile menu button -->
+            <button data-collapse-toggle="navbar-default" type="button"
+              class="inline-flex items-center p-2 ml-3 text-sm text-cafe-noir-500 rounded-lg md:hidden hover:bg-cafe-noir-100 focus:outline-none focus:ring-2 focus:ring-cafe-noir-200 dark:text-cafe-noir-400 dark:hover:bg-cafe-noir-700 dark:focus:ring-cafe-noir-600"
+              aria-controls="navbar-default" aria-expanded="false">
+              <span class="sr-only">Open main menu</span>
+              <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </button>
+            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+              <ul
+                class="flex flex-col p-4 mt-4 bg-cafe-noir-50 rounded-lg border border-cafe-noir-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-cafe-noir-800 md:dark:bg-cafe-noir-900 dark:border-cafe-noir-700">
+                <li>
+                  <a href="#"
+                    class="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                    aria-current="page">Beranda</a>
+                </li>
+                <li>
+                  <a href="#"
+                    class="block py-2 pr-4 pl-3 text-cafe-noir-700 rounded hover:bg-cafe-noir-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-cafe-noir-400 md:dark:hover:text-white dark:hover:bg-cafe-noir-700 dark:hover:text-white md:dark:hover:bg-transparent">Tanggal</a>
+                </li>
+                <li>
+                  <a href="#"
+                    class="block py-2 pr-4 pl-3 text-cafe-noir-700 rounded hover:bg-cafe-noir-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-cafe-noir-400 md:dark:hover:text-white dark:hover:bg-cafe-noir-700 dark:hover:text-white md:dark:hover:bg-transparent">Galeri</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- Replace with your content -->
+    <div class="w-full h-[calc(100vh-80px)] bg-center bg-cover bg-blend-darken"
+      style="background-image: url('/assets/hero-cover.jpg')">
+      <div class="flex justify-center w-full h-2/3 bg-gradient-to-b from-champagne-pink-500 py-1">
+        <div class="text-center">
+          <div class="container px-4 mx-auto">
+            <div class="max-w-4xl mx-auto text-center">
+              <span
+                class="text-cafe-noir-300 text-base lg:text-lg font-sans font-semibold uppercase tracking-widest">The
+                Wedding of</span>
+              <h2 class="mt-3 text-5xl lg:text-6xl font-bold text-cafe-noir-300 font-cursive">Ana &amp; Windu</h2>
+              <p class="max-w-3xl mx-auto mb-2 font-semibold text-lg text-cafe-noir-200">
+                11 Desember 2022
+              </p>
+            </div>
+          </div>
+          <Countdown />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
