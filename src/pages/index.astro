@@ -61,14 +61,31 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
 </head>
 
 <body class="h-full">
-  <!-- Music Player -->
-  <audio id="myAudio" autoplay>
-    <source src="/assets/sax-cant-help-falling-in-love.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
   <script>
-    var audio = document.getElementById("myAudio");
-    audio.volume = 0.3;
+    window.addEventListener('load', function () {
+      var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      window.song = audioCtx.createBufferSource();
+      window.tryStartSong = 0;
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/assets/sax-cant-help-falling-in-love.mp3');
+      xhr.responseType = 'arraybuffer';
+      xhr.addEventListener('load', function (r) {
+          audioCtx.decodeAudioData(
+                  xhr.response, 
+                  function (buffer) {
+                      window.song.buffer = buffer;
+                      window.song.connect(audioCtx.destination);
+                      window.song.volume = 0.2;
+                      window.song.loop = true;
+                  });
+      });
+      xhr.send();
+    });
+
+    window.addEventListener('touchstart', function () {
+      window.song.start(0);
+      window.tryStartSong += 1;
+    });
   </script>
   <!-- End of Music Player -->
 
