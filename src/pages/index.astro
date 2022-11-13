@@ -3,6 +3,7 @@
 import Airtable from 'airtable'
 import Nav from '../components/Nav.astro';
 import Countdown from '../components/Countdown.astro';
+import Gallery from '../components/Gallery.astro';
 
 // ini contoh pake airtable, docs nya udah cukup bagus bisa ikutin aja disini https://airtable.com/api
 // tapi ini aku contohin pake project ku ya:
@@ -54,8 +55,9 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ana & Windu Wedding Day</title>
-  <link href="https://fonts.cdnfonts.com/css/vollkorn" rel="stylesheet">
-  <link href="https://fonts.cdnfonts.com/css/great-vibes" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/vollkorn" rel="stylesheet" />
+  <link href="https://fonts.cdnfonts.com/css/great-vibes" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet" />
 </head>
 
 <body class="h-full">
@@ -64,7 +66,7 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
     <!-- <h2>Daftar Undangan:</h2> -->
     <!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
 
-    <!-- Start of Section 1 -->
+    <!-- Start of Section 1 - Beranda -->
     <div class="snap-center">
       <Nav />
       <div class="w-full h-[calc(100vh-80px)] bg-center bg-cover"
@@ -89,7 +91,7 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
     </div>
     <!-- End of Section 1 -->
 
-    <!-- Start of Section 2 -->
+    <!-- Start of Section 2 - Profil -->
     <div class="snap-center">
       <div class="w-full h-screen bg-center bg-cover bg-cafe-noir-400 text-champagne-pink-500">
         <div class="flex justify-center w-full h-full">
@@ -139,19 +141,31 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
             <div class="max-w-4xl mx-auto text-center flex flex-row pb-2 align-middle text-center items-center justify-center">
               <div class="basis-1/2 mx-2 text-center items-center justify-center">
                 <div>Putri dari</div>
-                <div>Bapak Sutimin & Ibu Turiyah (Almh.)</div>
+                <div>Bapak Sutimin</div>
+                <div>Ibu Turiyah (Almh.)</div>
               </div>
-              <div class="basis-1/2 mx-2 text-center items-center justify-center  align-middle text-center items-center justify-center">
+              <div class="basis-1/2 mx-2 text-center items-center justify-center align-middle text-center items-center justify-center">
                 <div>Putra dari</div>
-                <div>Bapak Mamat (Alm.) & Ibu Adi Yanti</div>
+                <div>Bapak Mamat (Alm.)</div>
+                <div>Ibu Adi Yanti</div>
               </div>
             </div>
             <div class="max-w-4xl mx-auto text-center flex flex-row align-middle text-center items-center justify-center">
               <div class="basis-1/2 mx-2 text-center items-center justify-center">
-                <div>Sosmed</div>
+                <button type="button" class="inline-block p-3 mb-2 text-white font-medium text-xs leading-tight uppercase rounded-lg shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out" style="background-color: #c13584;">
+                  <i class="fa-brands fa-instagram"></i>
+                </button>
+                <button type="button" class="inline-block p-3 mb-2 text-white font-medium text-xs leading-tight uppercase rounded-lg shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out" style="background-color: #1da1f2;">
+                  <i class="fa-brands fa-twitter"></i>
+                </button>
               </div>
               <div class="basis-1/2 mx-2 text-center items-center justify-center  align-middle text-center items-center justify-center">
-                <div>Sosmed</div>
+                <button type="button" class="inline-block p-3 mb-2 text-white font-medium text-xs leading-tight uppercase rounded-lg shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out" style="background-color: #c13584;">
+                  <i class="fa-brands fa-instagram"></i>
+                </button>
+                <button type="button" class="inline-block p-3 mb-2 text-white font-medium text-xs leading-tight uppercase rounded-lg shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out" style="background-color: #1da1f2;">
+                  <i class="fa-brands fa-twitter"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -160,29 +174,54 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
     </div>
     <!-- End of Section 2 -->
 
-    <!-- Start of Section 3 -->
+    <!-- Start of Section 3 - Galeri -->
+    <div class="snap-center">
+      <div class="w-full h-screen bg-center bg-cover bg-champagne-pink-500 text-cafe-noir-500">
+        <div class="flex justify-center w-full h-full">
+          <div class="container px-4 mx-auto py-8">
+            <!-- Content here -->
+            <div class="max-w-4xl mx-auto text-center items-center">
+              <span
+                class="text-xl font-sans font-semibold uppercase pb-4 tracking-wide">
+                Galeri Foto
+              </span>
+            </div>
+            <Gallery />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Section 3 -->    
+
+    <!-- Start of Section 4 - Jadwal -->
     <div class="snap-center">
       <div class="w-full h-screen bg-center bg-cover"
         style="background-image: url('/assets/hero-cover2.jpg')">
         <div class="flex justify-center w-full h-full">
-          <div class="text-center">
-            <div class="container px-4 mx-auto py-8">
-              <div class="max-w-4xl mx-auto text-champagne-pink-300">
-                <!-- <span
-                  class="text-xl font-sans font-semibold tracking-widest">
-                  Assalamualaikum wr. wb.
-                </span>
-                <p
-                  class="mt-2 text-sm font-sans font-semibold tracking-widest">
-                  Bismillahirrahmanirrahim
-                </p> -->
-              </div>
+          <div class="container px-4 mx-auto py-8">
+            <div class="max-w-4xl mx-auto text-champagne-pink-300">
+              <!-- Content here -->
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- End of Section 2 -->
+    <!-- End of Section 4 -->
+
+    <!-- Start of Section 5 - Keterbatasan undangan & link gift -->
+    <div class="snap-center">
+      <div class="w-full h-screen bg-center bg-cover"
+        style="background-image: url('/assets/hero-cover2.jpg')">
+        <div class="flex justify-center w-full h-full">
+          <div class="container px-4 mx-auto py-8">
+            <div class="max-w-4xl mx-auto text-champagne-pink-300">
+              <!-- Content here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Section 5 -->
   </div>
 </body>
 </html>
