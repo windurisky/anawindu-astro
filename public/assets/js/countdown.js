@@ -6,7 +6,7 @@ let countdown = function () {
     days: '00',
     distance: 0,
     countdown: null,
-    beerTime: new Date('Dec 11, 2022 00:00:00').getTime(),
+    beerTime: new Date('Dec 11, 2022 10:00:00').getTime(),
     now: new Date().getTime(),
     start: function() {
       this.countdown = setInterval(() => {
