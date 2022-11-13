@@ -1,0 +1,255 @@
+---
+// install via `npm i airtable`
+import Airtable from 'airtable'
+import Nav from '../components/Nav.astro';
+import Countdown from '../components/Countdown.astro';
+import Gallery from '../components/Gallery.astro';
+
+// ini contoh pake airtable, docs nya udah cukup bagus bisa ikutin aja disini https://airtable.com/api
+// tapi ini aku contohin pake project ku ya:
+
+// api key nya kalo udah bisa nanti jangan dipake yaaaa wkwww
+
+Airtable.configure({
+    endpointUrl: 'https://api.airtable.com',
+    // replace apiKey based on docs di airtable
+    apiKey: 'keycpMBIzOnUKQqzQ'
+});
+
+// base ini juga ambil dari docs airtable
+const base = Airtable.base('appC7m4y9RgB6pybM')
+
+// ambil search params via contoh -> anaLalala.com?untuk=Miles Cruz
+const invitationForName = Astro.url.searchParams.get('untuk')?.trim()?.toLowerCase()
+
+// ini buat ambil semua data di table "Team Members"
+const airtableData = await base('Team Members')
+  .select()
+  .all()
+  .then(records => {
+    // r.fields itu buat ambil "raw" data nya aja, sama ini filter field "Name" aja (yg perlu)
+    return records.map(r => r.fields['Name'])
+
+    // would be better to consider caching via redis (bisa explore https://upstash.com/)
+  })
+  .catch((err) => {
+    console.error(err)
+  })
+
+
+const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === invitationForName)
+
+// ini buat redirection (kalo perlu), kalo namanya ga ketemu redirect ke /404
+// if (!foundInvitedPerson) {
+//   return Astro.redirect('/404')
+// }
+
+// fyi:
+// diantara --- ini astro bakal fetch di server trus balikin datanya ke template
+---
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ana & Windu Wedding Day</title>
+  <link href="https://fonts.cdnfonts.com/css/vollkorn" rel="stylesheet" />
+  <link href="https://fonts.cdnfonts.com/css/great-vibes" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body class="h-full">
+  <script>
+    window.addEventListener('load', function () {
+      var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      window.song = audioCtx.createBufferSource();
+      window.tryStartSong = 0;
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/assets/sax-cant-help-falling-in-love.mp3');
+      xhr.responseType = 'arraybuffer';
+      xhr.addEventListener('load', function (r) {
+          audioCtx.decodeAudioData(
+                  xhr.response, 
+                  function (buffer) {
+                      window.song.buffer = buffer;
+                      window.song.connect(audioCtx.destination);
+                      window.song.volume = 0.2;
+                      window.song.loop = true;
+                  });
+      });
+      xhr.send();
+    });
+
+    window.addEventListener('touchstart', function () {
+      window.song.start(0);
+      window.tryStartSong += 1;
+    });
+  </script>
+  <!-- End of Music Player -->
+
+  <div class="h-screen snap-y snap-mandatory overflow-auto">
+    <!-- Debug, uncomment aja buat liat semua data di airtable -->
+    <!-- <h2>Daftar Undangan:</h2> -->
+    <!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
+
+    <!-- Start of Section 1 - Beranda -->
+    <div class="snap-center">
+      <Nav />
+      <div class="w-full h-[calc(100vh-80px)] bg-center bg-cover"
+        style="background-image: url('/assets/hero-cover.jpg')">
+        <div class="flex justify-center w-full h-2/3 bg-gradient-to-b from-champagne-pink-500 py-1">
+          <div class="text-center">
+            <div class="container px-4 mx-auto">
+              <div class="max-w-4xl mx-auto text-center">
+                <span
+                  class="text-cafe-noir-300 text-base lg:text-lg font-sans font-semibold uppercase tracking-widest">The
+                  Wedding of</span>
+                <h2 class="mt-3 text-5xl lg:text-6xl font-bold text-cafe-noir-300 font-cursive">Ana &amp; Windu</h2>
+                <p class="max-w-3xl mx-auto mb-2 font-semibold text-lg text-cafe-noir-200">
+                  11 Desember 2022
+                </p>
+              </div>
+            </div>
+            <Countdown />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Section 1 -->
+
+    <!-- Start of Section 2 - Profil -->
+    <div class="snap-center">
+      <div class="w-full h-screen bg-center bg-cover bg-cafe-noir-400 text-champagne-pink-500">
+        <div class="flex justify-center w-full h-full">
+          <div class="container px-4 mx-auto py-8">
+            <div class="max-w-4xl mx-auto text-center">
+              <span
+                class="text-xl font-sans font-semibold tracking-widest">
+                Assalamualaikum wr. wb.
+              </span>
+              <p
+                class="mt-2 text-sm font-sans font-semibold italic tracking-widest">
+                Bismillahirrahmanirrahim..
+              </p>
+              <p
+                class="mt-7 text-sm font-sans font-semibold italic tracking-widest">
+                Dengan memohon Rahmat dan Ridho Allah SWT kami bermaksud menikahkan putra putri kami:
+              </p>
+            </div>
+            <div class="max-w-4xl mx-auto text-center flex flex-row pt-7">
+              <div class="basis-1/2 mx-2">
+                <div class="flex items-center justify-center">
+                  <img
+                    class="object-cover object-center h-48 w-48 rounded-full border-4 border-champagne-pink-500"
+                    src="/assets/close-up-bride.jpg">
+                </div>
+              </div>
+              <div class="basis-1/2 mx-2">
+                <div class="flex items-center justify-center">
+                  <img
+                    class="object-cover object-center h-48 w-48 rounded-full border-4 border-champagne-pink-500"
+                    src="/assets/close-up-groom.jpg">
+                </div>
+              </div>
+            </div>
+            <div class="max-w-4xl mx-auto text-center flex flex-row pb-2 align-middle text-center items-center justify-center">
+              <div class="basis-1/2 mx-2 ">
+                <div class="font-cursive pt-3 lg:text-2xl text-xl font-semibold">
+                  Rochana Ariani
+                </div>
+              </div>
+              <div class="basis-1/2 mx-2 text-center items-center justify-center">
+                <div class="font-cursive pt-3 lg:text-2xl text-xl font-semibold">
+                  Windu Risky Adiatma
+                </div>
+              </div>
+            </div>
+            <div class="max-w-4xl mx-auto text-center flex flex-row pb-2 align-middle text-center items-center justify-center">
+              <div class="basis-1/2 mx-2 text-center items-center justify-center">
+                <div>Putri dari</div>
+                <div>Bapak Sutimin</div>
+                <div>Ibu Turiyah (Almh.)</div>
+              </div>
+              <div class="basis-1/2 mx-2 text-center items-center justify-center align-middle text-center items-center justify-center">
+                <div>Putra dari</div>
+                <div>Bapak Mamat (Alm.)</div>
+                <div>Ibu Adi Yanti</div>
+              </div>
+            </div>
+            <div class="max-w-4xl mx-auto text-center flex flex-row align-middle text-center items-center justify-center">
+              <div class="basis-1/2 mx-2 text-center items-center justify-center">
+                <button type="button" class="inline-block p-3 mb-2 text-white font-medium text-xs leading-tight uppercase rounded-lg shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out" style="background-color: #c13584;">
+                  <i class="fa-brands fa-instagram"></i>
+                </button>
+                <button type="button" class="inline-block p-3 mb-2 text-white font-medium text-xs leading-tight uppercase rounded-lg shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out" style="background-color: #1da1f2;">
+                  <i class="fa-brands fa-twitter"></i>
+                </button>
+              </div>
+              <div class="basis-1/2 mx-2 text-center items-center justify-center  align-middle text-center items-center justify-center">
+                <button type="button" class="inline-block p-3 mb-2 text-white font-medium text-xs leading-tight uppercase rounded-lg shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out" style="background-color: #c13584;">
+                  <i class="fa-brands fa-instagram"></i>
+                </button>
+                <button type="button" class="inline-block p-3 mb-2 text-white font-medium text-xs leading-tight uppercase rounded-lg shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out" style="background-color: #1da1f2;">
+                  <i class="fa-brands fa-twitter"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Section 2 -->
+
+    <!-- Start of Section 3 - Galeri -->
+    <div class="snap-center">
+      <div class="w-full h-screen bg-center bg-cover bg-champagne-pink-500 text-cafe-noir-500">
+        <div class="flex justify-center w-full h-full">
+          <div class="container px-4 mx-auto py-8">
+            <!-- Content here -->
+            <div class="max-w-4xl mx-auto text-center items-center">
+              <span
+                class="text-xl font-sans font-semibold uppercase pb-4 tracking-wide">
+                Galeri Foto
+              </span>
+            </div>
+            <Gallery />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Section 3 -->    
+
+    <!-- Start of Section 4 - Jadwal -->
+    <div class="snap-center">
+      <div class="w-full h-screen bg-center bg-cover"
+        style="background-image: url('/assets/hero-cover2.jpg')">
+        <div class="flex justify-center w-full h-full">
+          <div class="container px-4 mx-auto py-8">
+            <div class="max-w-4xl mx-auto text-champagne-pink-300">
+              <!-- Content here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Section 4 -->
+
+    <!-- Start of Section 5 - Keterbatasan undangan & link gift -->
+    <div class="snap-center">
+      <div class="w-full h-screen bg-center bg-cover"
+        style="background-image: url('/assets/hero-cover2.jpg')">
+        <div class="flex justify-center w-full h-full">
+          <div class="container px-4 mx-auto py-8">
+            <div class="max-w-4xl mx-auto text-champagne-pink-300">
+              <!-- Content here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Section 5 -->
+  </div>
+</body>
+</html>
