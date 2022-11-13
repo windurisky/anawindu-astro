@@ -1,0 +1,25 @@
+<div class="container mx-auto" x-data="countdown()" x-init="start()">
+  <div class="max-w-4xl mx-auto text-center">
+    <div class="text-xl text-center flex w-full items-center justify-center">
+      <div class="w-15 mx-1 p-2 bg-cafe-noir-500 bg-opacity-80 text-cinnamon-satin-200 rounded-lg">
+        <div class="font-mono leading-none" x-text="days">00</div>
+        <div class="font-mono uppercase text-sm leading-none">Hari</div>
+      </div>
+      <div class="w-15 mx-1 p-2 bg-cafe-noir-500 bg-opacity-80 text-cinnamon-satin-200 rounded-lg">
+        <div class="font-mono leading-none" x-text="hours">00</div>
+        <div class="font-mono uppercase text-sm leading-none">Jam</div>
+      </div>
+      <div class="w-15 mx-1 p-2 bg-cafe-noir-500 bg-opacity-80 text-cinnamon-satin-200 rounded-lg">
+        <div class="font-mono leading-none" x-text="minutes">00</div>
+        <div class="font-mono uppercase text-sm leading-none">Menit</div>
+      </div>
+      <div class="w-15 mx-1 p-2 bg-cafe-noir-500 bg-opacity-80 text-cinnamon-satin-200 rounded-lg">
+        <div class="font-mono leading-none" x-text="seconds">00</div>
+        <div class="font-mono uppercase text-sm leading-none">Detik</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+<script is:inline src="/assets/js/countdown.js"></script>

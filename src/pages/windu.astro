@@ -1,6 +1,7 @@
 ---
 // install via `npm i airtable`
 import Airtable from 'airtable'
+import Countdown from '../components/Countdown.astro';
 
 // ini contoh pake airtable, docs nya udah cukup bagus bisa ikutin aja disini https://airtable.com/api
 // tapi ini aku contohin pake project ku ya:
@@ -54,7 +55,6 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
   <title>AnaLalala | Untuk {foundInvitedPerson}</title>
   <link href="https://fonts.cdnfonts.com/css/vollkorn" rel="stylesheet">
   <link href="https://fonts.cdnfonts.com/css/great-vibes" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
 </head>
 
 <body class="h-full vsc-initialized" data-new-gr-c-s-check-loaded="14.1086.0" data-gr-ext-installed="">
@@ -132,28 +132,7 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
               </p>
             </div>
           </div>
-          <div class="container mx-auto" x-data="countdown()" x-init="start()">
-            <div class="max-w-4xl mx-auto text-center">
-              <div class="text-xl text-center flex w-full items-center justify-center">
-                <div class="w-15 mx-1 p-2 bg-cafe-noir-500 bg-opacity-80 text-cinnamon-satin-200 rounded-lg">
-                  <div class="font-mono leading-none" x-text="days">00</div>
-                  <div class="font-mono uppercase text-sm leading-none">Hari</div>
-                </div>
-                <div class="w-15 mx-1 p-2 bg-cafe-noir-500 bg-opacity-80 text-cinnamon-satin-200 rounded-lg">
-                  <div class="font-mono leading-none" x-text="hours">00</div>
-                  <div class="font-mono uppercase text-sm leading-none">Jam</div>
-                </div>
-                <div class="w-15 mx-1 p-2 bg-cafe-noir-500 bg-opacity-80 text-cinnamon-satin-200 rounded-lg">
-                  <div class="font-mono leading-none" x-text="minutes">00</div>
-                  <div class="font-mono uppercase text-sm leading-none">Menit</div>
-                </div>
-                <div class="w-15 mx-1 p-2 bg-cafe-noir-500 bg-opacity-80 text-cinnamon-satin-200 rounded-lg">
-                  <div class="font-mono leading-none" x-text="seconds">00</div>
-                  <div class="font-mono uppercase text-sm leading-none">Detik</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Countdown />
         </div>
       </div>
     </div>
