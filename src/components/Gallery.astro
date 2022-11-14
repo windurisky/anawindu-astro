@@ -3,57 +3,57 @@
     <div class="w-full row-span-2">
       <img
         src="/assets/galleries/1.jpg"
-        onclick="showModal('/assets/galleries/1.jpg')"
-        alt="Photo by Claudio Schwarz on Unsplash"
+        onclick="showModal(this.src)"
+        alt="Photo Gallery 1"
         class="inset-0 h-full w-full object-cover object-center rounded opacity-90 grayscale transition-all hover:opacity-100 hover:grayscale-0">
     </div>
     <div class="w-full md:hidden col-span-2 row-span-2">
       <img
         src="/assets/galleries/2.jpg"
-        onclick="showModal('/assets/galleries/2.jpg')"
-        alt="Photo by Claudio Schwarz on Unsplash"
+        onclick="showModal(this.src)"
+        alt="Photo Gallery 2"
         class="inset-0 h-full w-full object-cover object-center rounded opacity-90 grayscale transition-all hover:opacity-100 hover:grayscale-0 ">
     </div>
     <div class="w-full ">
       <img
         src="/assets/galleries/3.jpg"
-        onclick="showModal('/assets/galleries/3.jpg')"
-        alt="Photo by Claudio Schwarz on Unsplash"
+        onclick="showModal(this.src)"
+        alt="Photo Gallery 3"
         class="inset-0 h-full w-full object-cover object-center rounded opacity-90 grayscale transition-all hover:opacity-100 hover:grayscale-0 ">
     </div>
     <div class="w-full">
       <img
         src="/assets/galleries/4.jpg"
-        onclick="showModal('/assets/galleries/4.jpg')"
-        alt="Photo by Claudio Schwarz on Unsplash"
+        onclick="showModal(this.src)"
+        alt="Photo Gallery 4"
         class="inset-0 h-full w-full object-cover object-center rounded opacity-90 grayscale transition-all hover:opacity-100 hover:grayscale-0 ">
     </div>
     <div class="w-full col-span-2 row-span-2">
       <img
         src="/assets/galleries/5.jpg"
-        onclick="showModal('/assets/galleries/5.jpg')"
-        alt="Photo by Claudio Schwarz on Unsplash"
+        onclick="showModal(this.src)"
+        alt="Photo Gallery 5"
         class="inset-0 h-full w-full object-cover object-center rounded opacity-90 grayscale transition-all hover:opacity-100 hover:grayscale-0 ">
     </div>
    
     <div class="w-full md:hidden col-span-2">
       <img
         src="/assets/galleries/6.jpg"
-        onclick="showModal('/assets/galleries/6.jpg')"
-        alt="Photo by Claudio Schwarz on Unsplash"
+        onclick="showModal(this.src)"
+        alt="Photo Gallery 6"
         class="inset-0 h-full w-full object-cover object-center rounded opacity-90 grayscale transition-all hover:opacity-100 hover:grayscale-0 ">
     </div>
     <div class="w-full md:hidden col-span-2">
       <img
         src="/assets/galleries/7.jpg"
-        onclick="showModal('/assets/galleries/7.jpg')"
-        alt="Photo by Claudio Schwarz on Unsplash"
+        onclick="showModal(this.src)"
+        alt="Photo Gallery 7"
         class="inset-0 h-full w-full object-cover object-center rounded opacity-90 grayscale transition-all hover:opacity-100 hover:grayscale-0 ">
     </div>
   </div>
 </div>
 
-<!-- The Modal -->
+<!-- Start of Modal -->
 <div id="modal"
   onclick="closeModal()"
   class="hidden fixed top-0 left-0 z-80 px-6 py-6 w-screen h-screen bg-cafe-noir-800 bg-opacity-95 flex justify-center items-center transition-all">
@@ -80,3 +80,4 @@
       modal.classList.add('hidden');
   }
 </script>
+<!-- End of Modal -->

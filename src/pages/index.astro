@@ -62,6 +62,7 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
 
 <body class="h-full">
   <script>
+    // music player
     window.addEventListener('load', function () {
       var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       window.song = audioCtx.createBufferSource();
@@ -87,7 +88,6 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
       window.tryStartSong += 1;
     });
   </script>
-  <!-- End of Music Player -->
 
   <div class="h-screen snap-y snap-mandatory overflow-auto">
     <!-- Debug, uncomment aja buat liat semua data di airtable -->
