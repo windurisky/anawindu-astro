@@ -1,6 +1,7 @@
 ---
 // install via `npm i airtable`
 import Airtable from 'airtable'
+import PageLoader from '../components/PageLoader.astro';
 import Nav from '../components/Nav.astro';
 import Countdown from '../components/Countdown.astro';
 import Profile from '../components/Profile.astro';
@@ -90,7 +91,10 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
     });
   </script>
 
-  <div class="h-screen snap-y snap-mandatory overflow-auto">
+  <PageLoader />
+
+  <div id="page-content"
+    class="h-screen snap-y snap-mandatory overflow-auto">
     <!-- Debug, uncomment aja buat liat semua data di airtable -->
     <!-- <h2>Daftar Undangan:</h2> -->
     <!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
