@@ -225,10 +225,43 @@ const foundInvitedPerson = airtableData.find(d => String(d).toLowerCase() === in
     <div class="snap-center">
       <div class="w-full h-screen bg-center bg-cover"
         style="background-image: url('/assets/hero-cover2.jpg')">
-        <div class="flex justify-center w-full h-full">
-          <div class="container px-4 mx-auto py-8">
-            <div class="max-w-4xl mx-auto text-champagne-pink-300">
-              <!-- Content here -->
+        <div class="flex justify-center w-full h-full bg-opacity-75 bg-black">
+          <div class="container px-4 mx-auto py-8 text-champagne-pink-300">
+            <div class="max-w-4xl mx-auto text-center items-center">
+              <span
+                class="text-xl font-sans font-semibold uppercase pb-4 tracking-wide">
+                Waktu Acara
+              </span>
+            </div>
+            <div class="flex flex-col h-full w-full justify-center items-center space-y-12 px-6 lg:px-10">
+              <div class="grid grid-cols-3 lg:grid-cols-4 grid-rows-1 gap-2 lg:gap-4 w-full">
+                <div class="lg:col-span-2 text-2xl lg:text-3xl font-sans pb-4 tracking-wide text-right px-4 lg:px-6">
+                  <span
+                    class="font-semibold font-cursive">
+                    Akad
+                  </span>
+                </div>
+                <div class="col-span-2 text-lg font-sans tracking-wide">
+                  <p>11 Desember 2022</p>
+                  <p>10:00 WIB</p>
+                  <p>Kemang</p>
+                  <p>Jakarta Selatan</p>
+                </div>
+              </div>
+              <div class="grid grid-cols-3 lg:grid-cols-4 grid-rows-1 gap-2 lg:gap-4 w-full">
+                <div class="lg:col-span-2 text-2xl lg:text-3xl font-sans tracking-wide text-right px-3 lg:px-5">
+                  <span
+                    class="font-semibold font-cursive">
+                    Resepsi
+                  </span>
+                </div>
+                <div class="col-span-2 text-lg font-sans pb-4 tracking-wide">
+                  <p>11 Desember 2022</p>
+                  <p>12:00 - 14:00 WIB</p>
+                  <p>Kemang</p>
+                  <p>Jakarta Selatan</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

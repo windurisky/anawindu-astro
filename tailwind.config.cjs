@@ -12,6 +12,7 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
+      black: '#000000',
       white: '#ffffff',
       'champagne-pink': {
         50: '#fffff3',
