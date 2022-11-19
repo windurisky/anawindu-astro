@@ -108,6 +108,7 @@ if (!foundInvitedPerson) {
       panelInvitationBackground.classList.toggle('bg-black')
       panelInvitationBackground.classList.toggle('invisible')
 
+      // play music
       var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       window.song = audioCtx.createBufferSource();
       window.tryStartSong = 0;
@@ -115,14 +116,14 @@ if (!foundInvitedPerson) {
       xhr.open('GET', '/assets/sax-cant-help-falling-in-love.mp3');
       xhr.responseType = 'arraybuffer';
       xhr.addEventListener('load', function (r) {
-          audioCtx.decodeAudioData(
-                  xhr.response, 
-                  function (buffer) {
-                      window.song.buffer = buffer;
-                      window.song.connect(audioCtx.destination);
-                      window.song.volume = 0.2;
-                      window.song.loop = true;
-                  });
+        audioCtx.decodeAudioData(
+          xhr.response,
+          function (buffer) {
+              window.song.buffer = buffer;
+              window.song.connect(audioCtx.destination);
+              window.song.volume = 0.1;
+              window.song.loop = true;
+          });
       });
       xhr.send();
       window.song.start(0);
