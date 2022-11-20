@@ -369,10 +369,30 @@ if (!foundInvitedPerson) {
       </div>
     </div>
 
+    <!-- Implement the toast -->
+    <div id="copy-rekening-toast" class="fixed w-full bottom-10
+      -translate-x-full transition-all ease-in-out duration-500">
+      <div class="inline-block mx-6 px-5 py-4 border-r-8
+        bg-white drop-shadow-lg">
+        <p class="text-sm">
+        <!-- Polish the toast with an circle blue "i" (stands for information) -->
+        <i class="fa-solid fa-circle-info mr-2"></i>
+        Nomor rekening telah disalin
+        </p>
+      </div>
+    </div>
+
     <script is:inline>
       let copyRekening = function() {
-        rekening = document.getElementById("rekening-windu").textContent
+        let rekening = document.getElementById("rekening-windu").textContent
+        let toast = document.getElementById("copy-rekening-toast")
+
         navigator.clipboard.writeText(rekening)
+        toast.classList.remove("-translate-x-full");
+
+        setTimeout(function () {
+          toast.classList.add("-translate-x-full");
+        }, 2000);
       }
     </script>
     <!-- End of Section 7 -->
