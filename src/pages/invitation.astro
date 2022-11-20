@@ -323,6 +323,59 @@ if (!foundInvitedPerson) {
       </div>
     </div>
     <!-- End of Section 6 -->
+
+    <!-- Section 7 - Kirim Hadiah -->
+    <div class="snap-center">
+      <div class="w-full h-screen bg-champagne-pink-500">
+        <div class="flex justify-center w-full h-full">
+          <div class="container px-4 mx-auto py-8 text-cafe-noir-300">
+            <div class="max-w-4xl mx-auto text-center items-center">
+              <span
+                class="text-xl font-sans font-semibold uppercase pb-4 tracking-wide">
+                Tanda Kasih
+              </span>
+            </div>
+            <div class="flex flex-col h-5/6 lg:h-full w-full justify-center items-center space-y-4 px-6 lg:px-10">
+              <div class="text-center pt-4 lg:pt-6">
+                <span class="font-semibold font-cursive text-3xl lg:text-4xl">
+                  Kirim Hadiah <i class="fa-solid fa-gift ml-2"></i>
+                </span>
+                <div class="mt-4 text-lg">
+                  <p>Doa restu saudara/i semua sudah sangat mencukupi sebagai hadiah untuk kami.</p>
+                  <p>Akan tetapi, jika memberi merupakan tanda kasih saudara/i, maka dengan senang hati kami menerimanya sebagai pelengkap kebahagiaan kami.</p>
+                </div>
+              </div>
+              <div class="w-full py-2 flex justify-center items-center">
+                <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-champagne-pink-100 text-center">
+                  <div class="px-6 py-4">
+                    <img class="w-full" src="/assets/bank-bca-logo.png" alt="Bank BCA">
+                  </div>
+                  <div class="px-6 py-4">
+                    <div class="font-bold text-2xl mb-2">Windu Risky Adiatma</div>
+                    <p id="rekening-windu" class="text-gray-700 text-xl font-bold">5455027737</p>
+                  </div>
+                  <div class="px-6 py-4">
+                    <button type="button" onclick="copyRekening()"
+                      class="text-white bg-cafe-noir-500 hover:bg-cafe-noir-700 focus:ring-4 focus:outline-none focus:ring-cafe-noir-200 dark:focus:ring-cafe-noir-900
+                      rounded-lg text-lg px-5 py-2.5 inline-flex justify-center w-full text-center">
+                      <i class="fa-solid fa-copy mr-2"></i> Salin Rekening
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline>
+      let copyRekening = function() {
+        rekening = document.getElementById("rekening-windu").textContent
+        navigator.clipboard.writeText(rekening)
+      }
+    </script>
+    <!-- End of Section 7 -->
   </div>
 </body>
 </html>
