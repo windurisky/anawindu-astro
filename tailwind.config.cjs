@@ -14,6 +14,7 @@ module.exports = {
       current: 'currentColor',
       black: '#000000',
       white: '#ffffff',
+      red: '#ff0000',
       'champagne-pink': {
         50: '#fffff3',
         100: '#fff7e9',
